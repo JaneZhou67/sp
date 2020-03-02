@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zb.sp.dao.UserMapper">
+    
+    <select id="list" parameterType="map" resultType="map">
+        select *,r.id as rid from smbms_user u inner join smbms_role r
+        on u.userrole=r.id
+        <where>
+            <if test="userName!=null">
+                and  u.username like concat('%',#{userName},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getAllRoles" resultType="Map">
+        select * from smbms_role
+    </select>
+
+    <insert id="save" parameterType="Map">
+        insert into smbms_user
+        (userName,gender,birthday,phone,address,userRole)
+        values
+        (#{userName},#{gender},#{birthday},#{phone},#{address},#{userRole})
+    </insert>
+</mapper>
